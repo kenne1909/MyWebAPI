@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyWebAPI.Data;
+using MyWebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddDbContext<MyDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"));
 });
+//builder.Services.AddScoped<ILoaiRepository, LoaiRepository>();
+builder.Services.AddScoped<ILoaiRepository, LoaiRepositoryInMemory>();
+builder.Services.AddAuthentication();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
