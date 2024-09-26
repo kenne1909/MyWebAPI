@@ -43,7 +43,6 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(LoaiModel model)
         {
             try

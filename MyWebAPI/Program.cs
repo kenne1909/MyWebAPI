@@ -11,8 +11,9 @@ builder.Services.AddDbContext<MyDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"));
 });
-//builder.Services.AddScoped<ILoaiRepository, LoaiRepository>();
-builder.Services.AddScoped<ILoaiRepository, LoaiRepositoryInMemory>();
+builder.Services.AddScoped<ILoaiRepository, LoaiRepository>();
+//builder.Services.AddScoped<ILoaiRepository, LoaiRepositoryInMemory>();
+builder.Services.AddScoped<IHanghoaRepository,HanghoaRepository>();
 builder.Services.AddAuthentication();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
