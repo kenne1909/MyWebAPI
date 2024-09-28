@@ -36,3 +36,9 @@ Mẫu thiết kế này giúp trừu tượng hóa cách dữ liệu được l�
 - **Tách biệt các mối quan tâm**: Lớp truy cập dữ liệu được tách khỏi logic nghiệp vụ, giúp mã dễ bảo trì và sửa đổi.
 - **Dễ kiểm thử**: Sử dụng Repository Pattern giúp dễ dàng mock (giả lập) lớp truy cập dữ liệu cho kiểm thử đơn vị.
 - **Linh hoạt**: Dễ dàng thay đổi cơ chế lưu trữ dữ liệu (ví dụ: từ SQL sang NoSQL) mà không ảnh hưởng đến logic nghiệp vụ.
+
+
+# JWT
+## Thông tin người dùng
+## roles
+## expire time

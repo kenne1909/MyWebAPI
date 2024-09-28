@@ -12,6 +12,7 @@ namespace MyWebAPI.Data
         public DbSet<Loai> loais { get; set; }
         public DbSet<DonHang> donHangs { get; set; }
         public DbSet<DonHangChiTiet> donHangsChiTiet { get; set; }
+        public DbSet<NguoiDung> NguoiDungs { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +39,11 @@ namespace MyWebAPI.Data
                 e.HasOne(e => e.HangHoa)
                     .WithMany(e => e.donHangChiTiets)
                     .HasForeignKey(e => e.MaHH);
+            });
+            modelBuilder.Entity<NguoiDung>(e =>
+            {
+                e.HasIndex(e => e.UserName).IsUnique();
+                e.Property(e => e.HoTen).IsRequired().HasMaxLength(150);
             });
         }
     }

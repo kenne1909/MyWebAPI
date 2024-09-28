@@ -1,6 +1,10 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MyWebAPI.Data;
+using MyWebAPI.Models;
 using MyWebAPI.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +18,27 @@ builder.Services.AddDbContext<MyDbContext>(option =>
 builder.Services.AddScoped<ILoaiRepository, LoaiRepository>();
 //builder.Services.AddScoped<ILoaiRepository, LoaiRepositoryInMemory>();
 builder.Services.AddScoped<IHanghoaRepository,HanghoaRepository>();
-builder.Services.AddAuthentication();
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+var secretKey = builder.Configuration["AppSettings:SecretKey"];
+var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        //tự cấp token; có thể dùng dịch vụ ngoài
+        ValidateIssuer = false,
+        ValidateAudience = false,
+
+        //ký vào token
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+
+        ClockSkew =TimeSpan.Zero
+    };
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -30,6 +54,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//nhớ authen trc autho(kiểm tra ng dùng ms kiểm tra quyền)  
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

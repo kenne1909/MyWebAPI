@@ -50,7 +50,8 @@ namespace MyWebAPI.Controllers
         {
             try
             {
-                return Ok(_hanghoaRepository.Add(model));
+                var newHanghoa= _hanghoaRepository.Add(model);
+                return Created($"api/Product/{newHanghoa.MaHH}", newHanghoa);
             }
             catch
             {

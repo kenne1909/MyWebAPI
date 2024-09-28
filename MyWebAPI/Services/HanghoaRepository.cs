@@ -16,7 +16,9 @@ namespace MyWebAPI.Services
         }
         public HangHoaModel Add(HanghoaMD model)
         {
-            //var loai = _Context.loais.FirstOrDefault(lo => lo.TenLoai == model.TenLoai);
+            // Truy vấn thông tin loại dựa trên MaLoai
+            var loai = _Context.loais.FirstOrDefault(lo => lo.MaLoai == model.MaLoai);
+
             var hanghoa = new HangHoa
             {
                 MaHH= Guid.NewGuid(),
@@ -28,6 +30,10 @@ namespace MyWebAPI.Services
             };
             _Context.hangHoas.Add(hanghoa);
             _Context.SaveChanges();
+            //// Tải đối tượng HangHoa cùng với Loai
+            //var hanghoaWithLoai = _Context.hangHoas
+            //                              .Include(hh => hh.Loai)
+            //                              .FirstOrDefault(hh => hh.MaHH == hanghoa.MaHH);
             return new HangHoaModel
             {
                 MaHH = hanghoa.MaHH,
@@ -35,7 +41,7 @@ namespace MyWebAPI.Services
                 Mota = hanghoa.Mota,
                 DonGia = hanghoa.DonGia,
                 GiamGia = hanghoa.GiamGia,
-                TenLoai = hanghoa.Loai?.TenLoai,
+                TenLoai = loai?.TenLoai,
             };
         }
 
